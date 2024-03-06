@@ -26,6 +26,7 @@ def initialize_sstars(time, name, a_arcsec, ecc, inc, omra, Omega, tperi, Period
     Rgc = 8.178 | units.kpc
     BH = Particles(1)
     BH.mass = 4.154e+6 | units.MSun
+    BH.name = "SMBH"
     BH.position = (0,0,0) |units.AU 
     BH.velocity = (0,0,0) | (units.AU / units.yr)
 
@@ -38,7 +39,7 @@ def initialize_sstars(time, name, a_arcsec, ecc, inc, omra, Omega, tperi, Period
         S.radius = 0 |units.RSun
         a = Rgc * a_arcsec[si] * (1 |units.AU)/(1 | units.parsec)
         print("a=", a.in_(units.au))
-        from orbital_elements_to_cartesian import orbital_elements_to_pos_and_vel
+        from ic.orbital_elements_to_cartesian import orbital_elements_to_pos_and_vel
         S.position, S.velocity = orbital_elements_to_pos_and_vel(time, a, ecc[si], inc[si], omra[si], Omega[si], tperi[si], Period[si], BH[0].mass, S.mass)
     if reverse_time:
         for i in range(len(Sstars)):

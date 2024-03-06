@@ -32,8 +32,8 @@ if __name__ == "__main__":
     model_time = 0|units.Myr
     ax = plot_cluster(particles, model_time)
 
-    dt = 0.25|units.Myr
-    t_end = 10 | units.Myr
+    dt = o.dt
+    t_end = o.t_end
     while model_time<t_end:
         model_time += dt
         gravity.evolve_model(model_time)

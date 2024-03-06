@@ -9,15 +9,15 @@ def new_option_parser():
                       help="initial conditions datafile [%default]")
     result.add_option("--fig", 
                       dest="figname", 
-                      default = "binary_orbit.pdf",
+                      default = "orbit.pdf",
                       help="figure filename [%default]")
-    result.add_option("-t", type="float", unit=units.Myr,
+    result.add_option("-t", type="float", unit=units.yr,
                       dest="t_end", 
-                      default = 10|units.Myr,
+                      default = 10|units.yr,
                       help="end time of the simulation [%default]")
-    result.add_option("--dt", type="float", unit=units.Myr,
+    result.add_option("--dt", type="float", unit=units.yr,
                       dest="dt", 
-                      default = 0.25|units.Myr,
+                      default = 0.25|units.yr,
                       help="time stel [%default]")
     return result
 

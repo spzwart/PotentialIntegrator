@@ -35,7 +35,7 @@ def new_option_parser():
     result.add_option("-I", 
                       dest="conditions", 
                       default = "Binary",
-                      help="initial conditions routine [%default]")
+                      help="initial conditions routine (Plummer, Binary, SStars) [%default]")
     result.add_option("-N", 
                       dest="N",  type = "int",
                       default = 10,
