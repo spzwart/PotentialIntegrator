@@ -86,13 +86,12 @@ if __name__ == "__main__":
     r = particles.position.length().sum()/len(particles)
     converter=nbody_system.nbody_to_si(m, r)
 
-    potential = PointParticlePotential()
-    #potential = PlummerPotential()
-    
     gravity = []
     channel = {"to_gr":[],
                "from_gr":[]}
     for pi in range(len(particles)):
+        #potential = PointParticlePotential()
+        potential = PlummerPotential()
         gravity.append(CompositeGravityCode(converter, potential))    
         gravity[-1].add_particle(particles[pi].as_set())
         channel["to_gr"].append(particles.new_channel_to(gravity[-1].particles))
@@ -103,7 +102,7 @@ if __name__ == "__main__":
     for gi in range(len(gravity)):
         for gj in range(len(gravity)):
             if gi != gj:
-                #print(f"Add code: ({gi}, {gj})")
+                print(f"add_system({gi}, ({gj},))")
                 system.add_system(gravity[gi], (gravity[gj],))
     #print("")
 

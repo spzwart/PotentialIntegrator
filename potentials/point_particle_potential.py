@@ -19,7 +19,7 @@ class PointParticlePotential(object):
 
     def get_gravity_at_point(self, eps, x,y,z):
         phi_0 = self.get_potential_at_point(eps, x,y,z)
-        dpos = 0.001*(x**2+y**2+z**2).sqrt()
+        dpos = self.radius #0.0001*(x**2+y**2+z**2).sqrt()
         phi_dx = self.get_potential_at_point(0,x+dpos,y,z) - phi_0
         phi_dy = self.get_potential_at_point(0,x,y+dpos,z) - phi_0
         phi_dz = self.get_potential_at_point(0,x,y, z+dpos) - phi_0

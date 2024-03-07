@@ -9,6 +9,7 @@ def new_PlummerModel(N, Rvir):
     converter=nbody_system.nbody_to_si(N|units.MSun, Rvir)
     particles = new_plummer_model(N, converter)
     particles.mass = new_salpeter_mass_distribution(len(particles))
+    particles.radius = (particles.mass/(1|units.MSun))*0.78 | units.RSun
     particles.scale_to_standard(converter)
     particles.move_to_center()
     return particles
