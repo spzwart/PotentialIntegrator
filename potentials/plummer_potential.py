@@ -2,15 +2,15 @@ import numpy as np
 from amuse.lab import *
 
 class PlummerPotential(object):
-
     def __init__(self):
         self.mass= 0 | units.MSun
         self.radius = 0 | units.pc
         self.epsilon2 = (0 | units.parsec)**2
 
-    def set_parameters(self, mass, radius):
+    def set_parameters(self, mass, radius, eps2=(0|units.pc)**2):
         self.mass = mass
         self.radius = radius
+        self.epsilon2 = eps2
         
     def get_potential_at_point(self,eps,x,y,z):
         r=(x**2+y**2+z**2 + self.radius**2 + self.epsilon2)**0.5

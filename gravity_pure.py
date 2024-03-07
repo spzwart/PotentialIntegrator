@@ -28,6 +28,9 @@ if __name__ == "__main__":
     c2gry=particles.new_channel_to(gravity.particles)
     c2fr=gravity.particles.new_channel_to(particles)
 
+    Ek0 = gravity.kinetic_energy
+    Ep0 = gravity.potential_energy
+    
     #ax = plot_cluster(potentials)
     model_time = 0|units.Myr
     ax = plot_cluster(particles, model_time)
@@ -38,7 +41,10 @@ if __name__ == "__main__":
         model_time += dt
         gravity.evolve_model(model_time)
         c2fr.copy()
-        print(model_time.in_(units.Myr))
+        Ek = gravity.kinetic_energy
+        Ep = gravity.potential_energy
+        dE = (Ek-Ek0) + (Ep-Ep0)
+        print(model_time.in_(units.Myr), dE/(Ek+Ep))
         plot_cluster(particles, model_time, ax)
     gravity.stop()
     plot_cluster(particles, model_time, ax, o.figname)

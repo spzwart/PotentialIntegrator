@@ -1,6 +1,6 @@
 import numpy as np
 from amuse.datamodel import Particles
-from amuse.units import units
+from amuse.units import units, quantities
 from amuse.units import constants
 from amuse.units import nbody_system
 from amuse.couple import bridge
@@ -36,7 +36,13 @@ class CompositeGravityCode(object):
         
     @property
     def potential_energy(self):
-        return quantities.zero
+        m = self.particles[0].mass
+        x = self.particles[0].x
+        y = self.particles[0].y
+        z = self.particles[0].z
+        eps = self.potential.epsilon2
+        return m*self.potential.get_potential_at_point(eps,x,y,z)[0]
+    
     @property 
     def kinetic_energy(self):
         return (0.5*self.particles.mass \
@@ -60,6 +66,18 @@ class CompositeGravityCode(object):
         self.potential.stop()                
         return
 
+def get_kinetic_energy(gravity):
+    Ek = 0 | units.erg
+    for gi in gravity:
+        Ek += gi.kinetic_energy
+    return Ek
+        
+def get_potential_energy(gravity):
+    Ep = 0 | units.erg
+    for gi in gravity:
+        Ep += gi.potential_energy
+    return Ep
+    
 if __name__ == "__main__":
     o, arguments = new_option_parser().parse_args()
 
@@ -92,19 +110,24 @@ if __name__ == "__main__":
     model_time = 0|units.Myr
     ax = plot_cluster(particles, model_time)
 
-    #dt = 0.25|units.Myr
     dt = o.dt
-    system.timestep = 0.5*dt
+    system.timestep = 0.25*dt
 
-    #t_end = 10 | units.Myr
+    Ek0 = get_kinetic_energy(gravity)
+    Ep0 = get_potential_energy(gravity)
+    
     t_end = o.t_end
     while model_time<t_end:
         model_time += dt
         system.evolve_model(model_time)
         for fi in channel["from_gr"]:
             fi.copy()
-        print(model_time.in_(units.Myr))
+        Ek = get_kinetic_energy(gravity)
+        Ep = get_potential_energy(gravity)
+        dE = (Ek-Ek0) + (Ep-Ep0)
+        print(model_time.in_(units.Myr), dE/(Ek+Ep))
         plot_cluster(particles, model_time, ax)
+        
     system.stop()
     plot_cluster(particles, model_time, ax, o.figname)
 

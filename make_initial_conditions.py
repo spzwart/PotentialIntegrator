@@ -16,8 +16,8 @@ def new_PlummerModel(N, Rvir):
 def new_binary_star():
     N = 2
     mass = 10 | units.MSun
-    radius = 0.001|units.pc
-    converter=nbody_system.nbody_to_si(mass.sum(), radius)
+    radius = 1|units.RSun
+    converter=nbody_system.nbody_to_si(mass, radius)
     particles = Particles(2)
     vc = np.sqrt(constants.G*2*mass/(1|units.pc))
     particles[0].position = [1,0,0] | units.pc
@@ -25,6 +25,7 @@ def new_binary_star():
     particles[1].position = [0,0,0] | units.pc
     particles[1].velocity = [0,0,0] *vc
     particles.mass = mass
+    particles[1].mass *= 0.5
     particles.radius = radius
     particles.move_to_center()
     return particles

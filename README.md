@@ -41,10 +41,10 @@ python make_initial_conditions.py -I SStars # to generate the S-star cluster
 python make_initial_conditions.py -I Binary # to generate a simple binary
 
 # run the code as pure N-body (4th order)
-python gravity_pure.py -f binary.amuse
+python gravity_pure.py -f binary.amuse -t 5.e+7 --dt 1.e+6
 
 # Or run the code with potentials instead of particles (2nd order)
-python gravity_potential.py -f binary.amuse
+python gravity_potential.py -f binary.amuse -t 5.e+7 --dt 1.e+6
 
 For running the S-star cluster for 10
 python make_initial_conditions.py -I SStars 

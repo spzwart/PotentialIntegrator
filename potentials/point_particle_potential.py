@@ -7,9 +7,10 @@ class PointParticlePotential(object):
         self.radius = 0 | units.pc
         self.epsilon2 = (0 | units.parsec)**2
 
-    def set_parameters(self, mass, radius):
+    def set_parameters(self, mass, radius, eps2=(0|units.pc)**2):
         self.mass = mass
         self.radius = radius
+        self.epsilon2 = eps2
         
     def get_potential_at_point(self,eps,x,y,z):
         r=(x**2+y**2+z**2 + self.epsilon2)**0.5
@@ -25,16 +26,16 @@ class PointParticlePotential(object):
         return phi_dx/dpos, phi_dy/dpos, phi_dz/dpos
 
     def mass_in(self, r):
-        return self.mass * r**3/(r**2 + self.radius**2)**(3./2.)
+        return self.mass
 
     def density(self, r):
         return 3.*self.mass/(4*np.pi*self.radius**2)
 
-    def velocity_dispersion(self, R):
-        return np.sqrt(constants.G*self.mass/R)
+    def velocity_dispersion(self, r):
+        return np.sqrt(constants.G*self.mass/r)
 
-    def circular_velocity(self, R):
-        return np.sqrt(constants.G*self.mass/R)
+    def circular_velocity(self, r):
+        return np.sqrt(constants.G*self.mass/r)
     
     def stop(self):
         return
